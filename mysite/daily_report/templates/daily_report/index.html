@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+<html>
+<link rel="stylesheet" type="text/css" href="{% static 'daily_report/style.css' %}" />
+<head>
+    <title>日報管理Home</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    ログイン中:{{ user.username }}
+    <a href="/daily_report/logout/">Logout</a>
+    {% else %}
+    <a href="/daily_report/register/">新規登録</a>
+    <a href="/daily_report/login/">Login</a><br />
+    {% endif %}
+    
+    <h1>日報管理</h1>
+    {% if user.is_authenticated %}
+    <a href="/daily_report/write/">日報を書く</a><br />
+    {% endif%}
+    <br />
+    {{ content }}
+    <!--{% for choice in latest_daily_report.all %}
+        
+    {% endfor %}-->
+</body>
+</html>

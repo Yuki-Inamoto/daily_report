@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
+        <title>Login Page</title>
+    </head>
+    
+    <a href="/daily_report/">Home</a><br />
+    
+    <body>
+        <h1>Login Page</h1>
+        {% if login_flag %}
+        <h2>入力が正しくありません</h2>
+        {% endif%}
+
+        <form id="login_form" method="post" action="/daily_report/login/">
+            {% csrf_token %}
+            
+            {{ user_form.as_p }}
+            <input type="submit" value="submit" />
+        </form>
+    </body>
+    
+</html>
