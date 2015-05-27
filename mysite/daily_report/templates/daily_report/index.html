@@ -18,11 +18,21 @@
     <h1>日報管理</h1>
     {% if user.is_authenticated %}
     <a href="/daily_report/write/">日報を書く</a><br />
+    <br />
+    <h3>最新の日報</h3>
+      {% if repo %}
+      <ul>
+      {% for r in repo %}
+        <li>{{ r }}</a></li>
+      {% endfor %}
+      </ul>
+      {% else %}
+        <p>日報は存在しません。</p>
+      {% endif %}
     {% endif%}
     <br />
-    {{ content }}
-    <!--{% for choice in latest_daily_report.all %}
-        
-    {% endfor %}-->
+    
+    
+
 </body>
 </html>

@@ -8,14 +8,14 @@ from .forms import UserForm
 
 from .models import Report
 
-class IndexView(generic.ListView):
-    template_name = 'daily_report/index.html'
-    context_object_name = 'latest_daily_report'
+#class IndexView(generic.ListView):
+#    template_name = 'daily_report/index.html'
+#    context_object_name = 'latest_daily_report'
     
-
-    def get_queryset(self):
-        """Return the last five published daily_report."""
-        return Report.objects.order_by('-pub_date')[:5]
+def get_queryset(request):
+    repo = Report.objects.order_by('-edit_date')[:5]
+    context = {'repo': repo}
+    return render(request, 'daily_report/index.html',context)
 
 
 def register(request):
