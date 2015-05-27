@@ -1,5 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Report
+from django.forms import ModelForm, Textarea, CharField
+
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -7,3 +10,12 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'password')
+
+
+class ReportForm(forms.ModelForm):
+    class Meta:
+        model = Report
+        fields = ('title', 'pub_date', 'content')
+        widgets = {
+            'content': Textarea(attrs={'cols': 80, 'rows': 20}),
+        }

@@ -3,8 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
-from .forms import UserForm
+
+from .forms import UserForm, ReportForm
 
 from .models import Report
 
@@ -83,7 +85,6 @@ def user_login(request):
        'daily_report/login.html',
            {'user_form': user_form, 'login_flag': login_flag} )
 
-
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
@@ -91,6 +92,25 @@ def user_logout(request):
     # Take the user back to the homepage.
     return HttpResponseRedirect('/daily_report/')
 
+def write_report(request):
 
+    report_flag = False
+
+
+    if request.method == 'POST':
+        report_form = ReportForm(data=request.POST)
+        
+        if report_form.is_valid():
+            report = report_form.save(commit=False)
+            report.edit_date = timezone.now()
+            report.user_id = request.user
+            report.save()
+            report_flag = True
+        else:
+            print(report_form.errors)
+    else:
+        report_form = ReportForm()
+
+    return render(request, 'daily_report/write.html', {'report_form': report_form, 'report_flag': report_flag})
 
 # Create your views here.
