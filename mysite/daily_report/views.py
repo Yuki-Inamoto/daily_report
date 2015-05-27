@@ -19,6 +19,16 @@ def get_queryset(request):
     context = {'repo': repo}
     return render(request, 'daily_report/index.html',context)
 
+def user_pages(request):
+    history = Report.objects.filter(user_id=request.user).order_by('-edit_date')
+    history_count = history.count() - 1
+    print(history_count)
+    if request.method == 'POST':
+        e = request.POST.get('編集')
+        print(e)
+    context = {'history': history, 'history_count': history_count}
+    return render(request, 'daily_report/user.html',context)
+
 
 def register(request):
     registered = False
@@ -28,7 +38,6 @@ def register(request):
 
         user_form = UserForm(data=request.POST)
 
-        # If the two forms are valid...
         if user_form.is_valid() :
             # Save the user's form data to the database.
             user = user_form.save()
@@ -109,7 +118,7 @@ def write_report(request):
         else:
             print(report_form.errors)
     else:
-        report_form = ReportForm()
+        report_form = ReportForm(initial={'pub_date': timezone.now()})
 
     return render(request, 'daily_report/write.html', {'report_form': report_form, 'report_flag': report_flag})
 

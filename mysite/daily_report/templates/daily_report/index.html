@@ -8,7 +8,7 @@
 </head>
 <body>
     {% if user.is_authenticated %}
-    ログイン中:{{ user.username }}
+    ログイン中:<a href="/daily_report/user/">{{ user.username }}</a>
     <a href="/daily_report/logout/">Logout</a>
     {% else %}
     <a href="/daily_report/register/">新規登録</a>
@@ -17,18 +17,25 @@
     
     <h1>日報管理</h1>
     {% if user.is_authenticated %}
-    <a href="/daily_report/write/">日報を書く</a><br />
-    <br />
-    <h3>最新の日報</h3>
+      <a href="/daily_report/write/">日報を書く</a><br />
+      <br />
+      <h3>最新の日報</h3>
       {% if repo %}
-      <ul>
-      {% for r in repo %}
-        <li>{{ r }}</a></li>
-      {% endfor %}
-      </ul>
+      <table cellpadding="5">
+      <td>タイトル</td><td>作成者</td><td>更新日</td>
+        {% for r in repo %}
+          <tr>
+            <td>{{ r.title }}</td> 
+            <td>{{ r.user_id }}</td> 
+            <td>{{ r.edit_date }}</td>
+          </tr>
+        {% endfor %}
+      <table>
+
       {% else %}
         <p>日報は存在しません。</p>
       {% endif %}
+
     {% endif%}
     <br />
     

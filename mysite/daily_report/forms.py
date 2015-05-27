@@ -15,7 +15,15 @@ class UserForm(forms.ModelForm):
 class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
+        title = forms.CharField(initial='Your name')
         fields = ('title', 'pub_date', 'content')
+        
         widgets = {
             'content': Textarea(attrs={'cols': 80, 'rows': 20}),
+        }
+        initial = {
+            'content': u'Init'
+        }
+        help_texts = {
+            'content': 'Some useful help text.',
         }
