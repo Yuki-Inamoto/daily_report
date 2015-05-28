@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
+        <title>write</title>
+    </head>
+
+    <body>
+      {% if user.is_authenticated %}
+         <a href="/daily_report/">Home</a><br />
+         ログイン中:{{ user.username }}
+         <a href="/daily_report/logout/">Logout</a>
+
+         {% if report_flag %}
+                <br>
+                <strong>日報が更新されました!</strong><br>
+                <a href="/daily_report/">Return to the homepage.</a><br />
+         {% else %}
+
+         <h1>日報を書こう!!</h1>
+         
+         <form id="report_form" method="post" action="/daily_report/write/">
+            {% csrf_token %}
+            
+            タイトル     <br>
+             {{report_form.errors.title}} {{ report_form.title }}<br>
+            記入日       <br>
+             {{report_form.errors.pub_date}} {{ report_form.pub_date }}<br>
+            <日報内容>   <br>
+             {{report_form.errors.content}} {{ report_form.content }}<br>
+            <input type="submit" name="submit "value="登録"/>
+        </form>
+        
+        {% endif %}
+        
+        
+      {% else%}
+        Sorry Please login. <br />
+        <a href="/daily_report/">Home</a><br />
+        <meta http-equiv="REFRESH" content="5;URL=/daily_report/">
+      {% endif %}
+    </body>
+</html>

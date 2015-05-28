@@ -30,26 +30,28 @@
       
       {% if search_flag %}
         <br />
-        <h3>検索結果</h3>
-        {% if repo %}
-            <table cellpadding="5">
-            <td>タイトル</td><td>作成者</td><td>更新日</td><td></td>
-            {% for r in repo %}
-              <tr>
-                <td>{{ r.title }}</td> 
-                <td>{{ r.user_id }}</td> 
-                <td>{{ r.edit_date }}</td>
-           <td>
-            <button type="button" value="{{r.id}}" onclick="location.href=' {% url 'view-report' r.id %} '">読む
-            </button>
-          </td>
-              </tr>
+         <h3>検索結果</h3>
+         {% if repo %}
+             <table cellpadding="5">
+             <td>タイトル</td><td>作成者</td><td>更新日</td><td></td>
+             {% for r in repo %}
+               <tr>
+                 <td>{{ r.title }}</td> 
+                 <td>{{ r.user_id }}</td> 
+                 <td>{{ r.edit_date }}</td>
+               
+                 <td>
+            <button type="button" value="{{r.id}}" onclick="location.href='/daily_report/read-report/{{r.id}}/'">読む
+             </button>
+           </td>
+           
+               </tr>
             {% endfor %}
             </table>
-        {% else %}
+         {% else %}
              <p>日報は存在しません。</p>
-        {% endif %}
-      {% else%}
+         {% endif %}
+       {% else%}
           <br />
           <h3>最新の日報</h3>
           {% if repo %}
@@ -60,11 +62,12 @@
                     <td>{{ r.title }}</td> 
                     <td>{{ r.user_id }}</td> 
                     <td>{{ r.edit_date }}</td>
+                    
                     <td>
-            <button type="button" value="{{r.id}}" onclick="location.href=' {% url 'view-report' r.id %} '">読む
+            <button type="button" value="{{r.id}}" onclick="location.href='/daily_report/read-report/{{r.id}}'">読む
             </button>
                     </td>
-
+                   
                     </tr>
               {% endfor %}
               </table>
@@ -72,11 +75,9 @@
           {% else %}
              <p>日報は存在しません。</p>
           {% endif %}
+       {% endif%}
+  
 {% endif%}
-  {% endif%}
-    <br />
-    
-    
 
 </body>
 </html>
