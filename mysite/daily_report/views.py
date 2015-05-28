@@ -23,9 +23,7 @@ def user_pages(request):
     history = Report.objects.filter(user_id=request.user).order_by('-edit_date')
     history_count = history.count() - 1
     print(history_count)
-    if request.method == 'POST':
-        e = request.POST.get('編集')
-        print(e)
+
     context = {'history': history, 'history_count': history_count}
     return render(request, 'daily_report/user.html',context)
 
@@ -94,6 +92,7 @@ def user_login(request):
        'daily_report/login.html',
            {'user_form': user_form, 'login_flag': login_flag} )
 
+@login_required
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
@@ -101,6 +100,7 @@ def user_logout(request):
     # Take the user back to the homepage.
     return HttpResponseRedirect('/daily_report/')
 
+@login_required
 def write_report(request):
 
     report_flag = False
@@ -113,6 +113,7 @@ def write_report(request):
             report = report_form.save(commit=False)
             report.edit_date = timezone.now()
             report.user_id = request.user
+            
             report.save()
             report_flag = True
         else:
@@ -121,5 +122,61 @@ def write_report(request):
         report_form = ReportForm(initial={'pub_date': timezone.now()})
 
     return render(request, 'daily_report/write.html', {'report_form': report_form, 'report_flag': report_flag})
+
+@login_required
+def re_write(request, report_id):
+
+    report_flag = False
+    
+    r = Report.objects.get(id = report_id)
+
+    if request.user != r.user_id:
+         return HttpResponseRedirect('/daily_report/')
+
+    if request.method == 'POST':
+        report_form = ReportForm(data=request.POST)
+       
+       
+        r.content = request.POST['content']
+        r.title = request.POST['title']
+        r.pub_date = request.POST['pub_date']
+        r.edit_date = timezone.now()
+
+        print(r.content)
+        r.save()
+        report_flag = True
+    else:
+        print("Init")
+        report_form = ReportForm(initial={'pub_date': r.pub_date, 'content': r.content, 'title': r.title})
+
+    return render(request, 'daily_report/re-write.html', {'report_form': report_form, 'report_flag': report_flag, 'report_id': report_id})
+
+
+
+@login_required
+def delete(request, report_id):
+    d = Report.objects.get(id = report_id)
+    d.delete()
+    return HttpResponseRedirect('/daily_report/')
+
+@login_required
+def search(request):
+    search_flag =False
+    if request.method == 'POST':
+        e = request.POST.get('search')
+        print(e)
+        repo = Report.objects.filter(title__contains = e)
+        
+        search_flag = True
+        context = {'repo': repo,'search_flag': search_flag}
+    return render(request, 'daily_report/index.html', context)
+
+
+@login_required
+def view_report(request, report_id):
+    r = Report.objects.get(id = report_id)
+    report_form = ReportForm(initial={'pub_date': r.pub_date, 'content': r.content, 'title': r.title})
+    context = {'report_form': report_form,  'report_id': report_id, 'name': r.user_id}
+    return render(request, 'daily_report/view-report.html', context)
 
 # Create your views here.

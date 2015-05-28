@@ -1,3 +1,4 @@
 envd/
 __pycache__/
 manage.py
+static/

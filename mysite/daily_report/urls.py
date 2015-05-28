@@ -9,4 +9,9 @@ urlpatterns = [
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^write/$', views.write_report, name='write'),
     url(r'^user/$', views.user_pages, name='user_pages'),
+    url(r'^re-write/(?P<report_id>\d+)/$', views.re_write, name='re-write'),
+    url(r'^delete/(?P<report_id>\d+)/$', views.delete, name='delete'),
+    url(r'^search/$', views.search, name='search'),
+    url(r'^view-report/(?P<report_id>\d+)/$', views.view_report, name='view_reoprt'),
+
 ]
