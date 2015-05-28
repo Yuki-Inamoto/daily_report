@@ -173,7 +173,7 @@ def search(request):
 
 
 @login_required
-def view_report(request, report_id):
+def read_report(request, report_id):
     r = Report.objects.get(id = report_id)
     report_form = ReportForm(initial={'pub_date': r.pub_date, 'content': r.content, 'title': r.title})
     context = {'report_form': report_form,  'report_id': report_id, 'name': r.user_id}
