@@ -12,6 +12,6 @@ urlpatterns = [
     url(r'^re-write/(?P<report_id>\d+)/$', views.re_write, name='re-write'),
     url(r'^delete/(?P<report_id>\d+)/$', views.delete, name='delete'),
     url(r'^search/$', views.search, name='search'),
-    url(r'^read-report/(?P<report_id>\d+)/$', views.read_report, name='read_reoprt'),
+    url(r'^read-report/(?P<report_id>\d+)/$', views.read_report, name='read-report'),
 
 ]

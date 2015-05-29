@@ -177,6 +177,6 @@ def read_report(request, report_id):
     r = Report.objects.get(id = report_id)
     report_form = ReportForm(initial={'pub_date': r.pub_date, 'content': r.content, 'title': r.title})
     context = {'report_form': report_form,  'report_id': report_id, 'name': r.user_id}
-    return render(request, 'daily_report/view-report.html', context)
+    return render(request, 'daily_report/read-report.html', context)
 
 # Create your views here.

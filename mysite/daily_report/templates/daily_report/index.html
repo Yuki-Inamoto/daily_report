@@ -41,8 +41,7 @@
                  <td>{{ r.edit_date }}</td>
                
                  <td>
-            <button type="button" value="{{r.id}}" onclick="location.href='/daily_report/read-report/{{r.id}}/'">読む
-             </button>
+             <a href="{% url 'read-report' r.id %}">読む</a>
            </td>
            
                </tr>
@@ -64,8 +63,7 @@
                     <td>{{ r.edit_date }}</td>
                     
                     <td>
-            <button type="button" value="{{r.id}}" onclick="location.href='/daily_report/read-report/{{r.id}}'">読む
-            </button>
+             <a href="{% url 'read-report' r.id %}">読む</a>
                     </td>
                    
                     </tr>
